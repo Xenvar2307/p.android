@@ -23,6 +23,12 @@ fun Application.configureDatabases() {
             val id = productService.create(product)
             call.respond(HttpStatusCode.Created, id)
         }
+        //Read all products
+        get("/products") {
+            val products = productService.readAll()
+            call.respond(HttpStatusCode.OK, mapOf("Products" to products))
+
+        }
         // Read product
         get("/products/{id}") {
             val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
