@@ -15,11 +15,18 @@ application {
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+
+
 }
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    maven("https://jitpack.io")
 }
+
+val exposed_version: String by project
+val h2_version: String by project
 
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm")
@@ -29,4 +36,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
+    implementation("com.h2database:h2:$h2_version")
+    implementation("com.github.rnett:exposedgson:1.1.1")
 }
