@@ -17,13 +17,13 @@ fun Application.configureDatabases() {
     val productService = ProductService(database)
 
     routing {
-        // Create user
+        // Create product
         post("/products") {
-            val user = call.receive<ExposedProduct>()
-            val id = productService.create(user)
+            val product = call.receive<ExposedProduct>()
+            val id = productService.create(product)
             call.respond(HttpStatusCode.Created, id)
         }
-        // Read user
+        // Read product
         get("/products/{id}") {
             val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
             val product = productService.read(id)
@@ -33,14 +33,14 @@ fun Application.configureDatabases() {
                 call.respond(HttpStatusCode.NotFound)
             }
         }
-        // Update user
+        // Update product
         put("/products/{id}") {
             val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
             val product = call.receive<ExposedProduct>()
             productService.update(id, product)
             call.respond(HttpStatusCode.OK)
         }
-        // Delete user
+        // Delete product
         delete("/products/{id}") {
             val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
             productService.delete(id)

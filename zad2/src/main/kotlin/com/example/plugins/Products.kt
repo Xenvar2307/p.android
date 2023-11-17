@@ -40,7 +40,7 @@ class ProductService(private val database: Database) {
     suspend fun <T> dbQuery(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }
 
-    suspend fun create(user: ExposedProduct): Int = dbQuery {
+    suspend fun create(product: ExposedProduct): Int = dbQuery {
         Products.insert {
             it[title] = Products.title
             it[quantity] = Products.quantity
@@ -56,7 +56,7 @@ class ProductService(private val database: Database) {
         }
     }
 
-    suspend fun update(id: Int, user: ExposedProduct) {
+    suspend fun update(id: Int, product: ExposedProduct) {
         dbQuery {
             Products.update({ Products.id eq id }) {
                 it[title] = Products.title
