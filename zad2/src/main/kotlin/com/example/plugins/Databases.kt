@@ -53,4 +53,45 @@ fun Application.configureDatabases() {
             call.respond(HttpStatusCode.OK)
         }
     }
+
+    val categoryService = CategoryService(database)
+
+    routing {
+        // Create category
+        post("/categories") {
+            val category = call.receive<ExposedCategory>()
+            val id = categoryService.create(category)
+            call.respond(HttpStatusCode.Created, id)
+        }
+        //Read all categories
+        get("/categories") {
+            val categories = categoryService.readAll()
+            call.respond(HttpStatusCode.OK, mapOf("Categories" to categories))
+
+        }
+        // Read category
+        get("/categories/{id}") {
+            val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
+            val category = categoryService.read(id)
+            if (category != null) {
+                call.respond(HttpStatusCode.OK, category)
+            } else {
+                call.respond(HttpStatusCode.NotFound)
+            }
+        }
+        // Update category
+        put("/categories/{id}") {
+            val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
+            val category = call.receive<ExposedCategory>()
+            categoryService.update(id, category)
+            call.respond(HttpStatusCode.OK)
+        }
+        // Delete category
+        delete("/categories/{id}") {
+            val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
+            categoryService.delete(id)
+            call.respond(HttpStatusCode.OK)
+        }
+    }
+
 }

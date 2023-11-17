@@ -12,7 +12,7 @@ data class ExposedCategory(val id: Int,val title: String, val popularity: Int, v
 
 class CategoryService(private val database: Database) {
     object Categories : Table() {
-        val id = integer("id").references(ProductService.Products.categoryId).uniqueIndex() //unsure if that works
+        val id = integer("id").uniqueIndex() //unsure if that works
         val title = varchar("title", length = 50)
         val popularity = integer("popularity")
         val producent = varchar("producent", length = 50)
@@ -53,6 +53,18 @@ class CategoryService(private val database: Database) {
                 .singleOrNull()
         }
     }
+
+    suspend fun readAll(): List<ExposedCategory> {
+        return dbQuery { CategoryService.Categories.selectAll().map(::resultRowToCategory) }
+    }
+
+    private fun resultRowToCategory(row: ResultRow) = ExposedCategory(
+        id = row[CategoryService.Categories.id],
+        title = row[CategoryService.Categories.title],
+        popularity = row[CategoryService.Categories.popularity],
+        producent = row[CategoryService.Categories.producent]
+
+    )
 
     suspend fun update(id: Int, category: ExposedCategory) {
         dbQuery {
