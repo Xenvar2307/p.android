@@ -16,7 +16,7 @@ class ProductService(private val database: Database) {
         val title = varchar("title", length = 50)
         val quantity = integer("quantity")
         val price = double("price")
-        val categoryId = integer("categoryId")
+        val categoryId = integer("categoryId") references CategoryService.Categories.id
 
         override val primaryKey = PrimaryKey(id)
     }
@@ -24,6 +24,7 @@ class ProductService(private val database: Database) {
     init {
         transaction(database) {
             SchemaUtils.create(Products)
+
             Products.insert{
                 it[title] = "Piłka"
                 it[quantity] = 58

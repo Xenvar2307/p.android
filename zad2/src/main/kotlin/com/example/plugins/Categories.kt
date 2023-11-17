@@ -23,6 +23,7 @@ class CategoryService(private val database: Database) {
     init {
         transaction(database) {
             SchemaUtils.create(Categories)
+
             Categories.insert{
                 it[id] = 1
                 it[title] = "Sportowe"

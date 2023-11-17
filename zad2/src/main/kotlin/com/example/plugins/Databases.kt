@@ -14,6 +14,8 @@ fun Application.configureDatabases() {
         driver = "org.h2.Driver",
         password = ""
     )
+
+    val categoryService = CategoryService(database)
     val productService = ProductService(database)
 
     routing {
@@ -53,8 +55,6 @@ fun Application.configureDatabases() {
             call.respond(HttpStatusCode.OK)
         }
     }
-
-    val categoryService = CategoryService(database)
 
     routing {
         // Create category
