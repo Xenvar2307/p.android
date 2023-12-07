@@ -1,4 +1,4 @@
-package com.example.calculator
+package com.example.zad3
 
 import org.junit.Test
 

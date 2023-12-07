@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.calculator"
+    namespace = "com.example.zad3"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.calculator"
+        applicationId = "com.example.zad3"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
